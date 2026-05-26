@@ -241,7 +241,7 @@ function initCursor() {
 }
 
 function initCardTilt() {
-  const cards = document.querySelectorAll(".project-card");
+  const cards = document.querySelectorAll(".project-card:not(.cert-card)");
 
   cards.forEach((card) => {
     card.addEventListener("mousemove", (e) => {
