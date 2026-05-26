@@ -330,7 +330,7 @@ img { max-width: 100%; display: block; }
 
 .hero-text { display: flex; flex-direction: column; gap: 0.1rem; }
 
-.hero-greeting, .hero-name, .hero-role, .hero-description, .hero-ctas {
+.hero-greeting, .hero-name, .hero-role, .hero-description, .hero-ctas, .hero-stack {
   opacity: 0;
 }
 
@@ -357,6 +357,11 @@ img { max-width: 100%; display: block; }
 .hero-ctas {
   animation: heroItemReveal 0.6s ease forwards;
   animation-delay: 0.9s;
+}
+
+.hero-stack {
+  animation: heroItemReveal 0.6s ease forwards;
+  animation-delay: 1.1s;
 }
 
 @keyframes heroItemReveal {
@@ -450,7 +455,7 @@ img { max-width: 100%; display: block; }
 .section {
   position: relative;
   z-index: 1;
-  padding: 5rem 1.5rem;
+  padding: 4.5rem 1.5rem;
 }
 
 .section-title {
@@ -489,7 +494,8 @@ img { max-width: 100%; display: block; }
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
-  max-width: 700px;
+  max-width: 800px;
+  align-items: stretch;
 }
 
 .stat-card {
@@ -552,14 +558,14 @@ img { max-width: 100%; display: block; }
   font-size: 4rem;
   font-weight: 800;
   color: var(--accent);
-  opacity: 0.1;
+  opacity: 0.06;
   line-height: 1;
   pointer-events: none;
   transition: opacity var(--transition);
 }
 
 .project-card:hover .project-number {
-  opacity: 0.2;
+  opacity: 0.12;
 }
 
 .project-name {
@@ -812,6 +818,123 @@ button:focus-visible {
   outline-offset: 2px;
 }
 
+/* Hero stack */
+.hero-stack {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-top: 1.5rem;
+  letter-spacing: 0.04em;
+}
+
+/* Stat detail line */
+.stat-detail {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  opacity: 0.65;
+  line-height: 1.5;
+  margin-top: auto;
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--border);
+}
+
+/* Project highlight */
+.project-highlight {
+  font-size: 0.78rem;
+  color: var(--accent);
+  opacity: 0.85;
+  margin-bottom: 1rem;
+  padding: 0.4rem 0.75rem;
+  background: var(--accent-glow);
+  border-radius: var(--radius-sm);
+  border-left: 2px solid var(--accent);
+  line-height: 1.5;
+  position: relative;
+  z-index: 1;
+}
+
+/* Skills static grid */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+
+.skills-category {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  transition: border-color var(--transition);
+}
+
+.skills-category:hover {
+  border-color: var(--accent);
+}
+
+.skills-category-title {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.75rem;
+}
+
+.skills-category-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.skills-category-list li {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+/* Cert description */
+.cert-description {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+  margin-bottom: 1rem;
+  font-style: italic;
+  opacity: 0.85;
+}
+
+/* Cert button — más prominente */
+.btn-cert {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: var(--transition);
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  cursor: none;
+}
+
+.btn-cert:hover {
+  background-color: var(--accent);
+  color: var(--accent-fg);
+  box-shadow: 0 4px 16px var(--accent-glow-btn);
+}
+
+/* Contact hover enhancement */
+.contact-card:hover {
+  background-color: var(--accent-glow);
+}
+
+/* Contact grid — slightly wider */
+.contact-grid {
+  max-width: 640px;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -823,6 +946,12 @@ button:focus-visible {
   .hero-photo-border { animation: none; }
   .scroll-indicator { animation: none; }
   .marquee-track { animation-play-state: paused !important; }
+}
+
+@media (max-width: 1024px) and (min-width: 769px) {
+  .skills-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 @media (max-width: 768px) {
@@ -883,4 +1012,11 @@ button:focus-visible {
 
   .contact-grid { grid-template-columns: 1fr; }
   .contact-card--full { grid-column: auto; }
+
+  .skills-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  .hero-stack { text-align: center; }
 }

@@ -39,12 +39,21 @@ const translations = {
     cert2_instructor: "Graeme Gordon",
     cert_btn_view: "Ver certificado",
     contact_title: "Contacto",
-    contact_subtitle: "¿Tenés un proyecto en mente o querés hablar? Escribime.",
+    contact_subtitle: "Si tenés un proyecto, una propuesta, o simplemente querés hablar — escribime. Respondo rápido.",
     contact_cv: "Descargar CV",
     footer_text: "Diseñado y desarrollado por Azael Pignanessi · 2025",
     stat_projects: "Proyectos en producción",
     stat_meli: "Experiencia en Mercado Libre",
-    stat_uni: "Universidad de Montevideo"
+    stat_uni: "Universidad de Montevideo",
+    stat_projects_detail: "reps.io · Galería Demo · Estudio Notarial",
+    stat_meli_detail: "Análisis de fraude · nov 2024 – jul 2025",
+    stat_uni_detail: "Lic. Informática · 2023 – presente",
+    hero_stack: "HTML · CSS · JS · React · Node.js · Firebase",
+    project1_highlight: "49 tests · PWA · Firebase Spark optimizado",
+    project2_highlight: "SaaS · Panel de admin · WebP automático",
+    project3_highlight: "Cliente real en producción · GitHub Actions · Google Sheets",
+    cert1_description: "HTML, CSS, JS, Node.js, React, bases de datos y proyectos reales",
+    cert2_description: "SQL, Tableau, Power BI, Excel aplicado a proyectos reales"
   },
   en: {
     nav_about: "About me",
@@ -86,12 +95,21 @@ const translations = {
     cert2_instructor: "Graeme Gordon",
     cert_btn_view: "View certificate",
     contact_title: "Contact",
-    contact_subtitle: "Have a project in mind or want to talk? Reach out.",
+    contact_subtitle: "Have a project, a proposal, or just want to talk — reach out. I reply quickly.",
     contact_cv: "Download CV",
     footer_text: "Designed and developed by Azael Pignanessi · 2025",
     stat_projects: "Projects in production",
     stat_meli: "Experience at Mercado Libre",
-    stat_uni: "Universidad de Montevideo"
+    stat_uni: "Universidad de Montevideo",
+    stat_projects_detail: "reps.io · Galería Demo · Estudio Notarial",
+    stat_meli_detail: "Fraud analysis · Nov 2024 – Jul 2025",
+    stat_uni_detail: "Computer Science · 2023 – present",
+    hero_stack: "HTML · CSS · JS · React · Node.js · Firebase",
+    project1_highlight: "49 tests · PWA · Firebase Spark optimized",
+    project2_highlight: "SaaS · Admin panel · Auto WebP",
+    project3_highlight: "Live client · GitHub Actions · Google Sheets",
+    cert1_description: "HTML, CSS, JS, Node.js, React, databases and real projects",
+    cert2_description: "SQL, Tableau, Power BI, Excel applied to real projects"
   }
 };
 
