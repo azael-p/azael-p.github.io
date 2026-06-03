@@ -43,6 +43,7 @@
 html {
   scroll-behavior: smooth;
   overflow-x: hidden;
+  scroll-padding-top: 80px; /* altura del navbar fijo + aire para que el título no quede tapado */
 }
 
 body {
@@ -52,6 +53,28 @@ body {
   line-height: 1.6;
   transition: background-color var(--transition-slow), color var(--transition-slow);
   cursor: none;
+}
+
+/* Saltar al contenido — visible solo al recibir foco con teclado */
+.skip-link {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -120%);
+  z-index: 200;
+  padding: 0.6rem 1.25rem;
+  background-color: var(--accent);
+  color: var(--accent-fg);
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+  transition: transform var(--transition);
+}
+
+.skip-link:focus {
+  transform: translate(-50%, 0);
+  outline: 2px solid var(--text);
+  outline-offset: 2px;
 }
 
 @media (hover: none) {
@@ -198,6 +221,9 @@ img { max-width: 100%; display: block; }
 .navbar-links a:hover { color: var(--text); }
 .navbar-links a:hover::after { width: 100%; }
 
+.navbar-links a.active { color: var(--text); }
+.navbar-links a.active::after { width: 100%; }
+
 .navbar-toggles {
   display: flex;
   align-items: center;
@@ -322,7 +348,12 @@ html[lang="en"] .lang-opt--en { color: var(--accent-fg); }
   height: 2px;
   background-color: var(--text);
   transition: var(--transition);
+  transform-origin: center;
 }
+
+.hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
 .hero {
   position: relative;
@@ -1072,4 +1103,21 @@ button:focus-visible {
   }
 
   .hero-stack { text-align: center; }
+}
+
+/* ── Reveal on scroll (reemplaza AOS) ──
+   Solo se ocultan/animan los elementos si el usuario no pidió menos movimiento;
+   con reduced-motion quedan visibles desde el inicio. */
+@media (prefers-reduced-motion: no-preference) {
+  [data-aos] {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+    will-change: opacity, transform;
+  }
+
+  [data-aos].is-visible {
+    opacity: 1;
+    transform: none;
+  }
 }

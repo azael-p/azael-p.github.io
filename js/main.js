@@ -41,7 +41,8 @@ const translations = {
     contact_title: "Contacto",
     contact_subtitle: "Si tenés un proyecto, una propuesta, o simplemente querés hablar — escribime. Respondo rápido.",
     contact_cv: "Descargar CV",
-    footer_text: "Diseñado y desarrollado por Azael Pignanessi · 2026",
+    skip_link: "Saltar al contenido",
+    footer_text: "Diseñado y desarrollado por Azael Pignanessi",
     stat_projects: "Proyectos en producción",
     stat_meli: "Experiencia en Mercado Libre",
     stat_uni: "Universidad de Montevideo",
@@ -97,7 +98,8 @@ const translations = {
     contact_title: "Contact",
     contact_subtitle: "Have a project, a proposal, or just want to talk — reach out. I reply quickly.",
     contact_cv: "Download CV",
-    footer_text: "Designed and developed by Azael Pignanessi · 2026",
+    skip_link: "Skip to content",
+    footer_text: "Designed and developed by Azael Pignanessi",
     stat_projects: "Projects in production",
     stat_meli: "Experience at Mercado Libre",
     stat_uni: "Universidad de Montevideo",
@@ -120,6 +122,15 @@ function applyTheme(theme) {
   document.documentElement.setAttribute("data-theme", theme);
   currentTheme = theme;
   localStorage.setItem("theme", theme);
+
+  const toggle = document.getElementById("themeToggle");
+  if (toggle) {
+    toggle.setAttribute("aria-pressed", String(theme === "light"));
+    toggle.setAttribute(
+      "aria-label",
+      theme === "dark" ? "Activar tema claro" : "Activar tema oscuro"
+    );
+  }
 }
 
 function applyLanguage(lang) {
@@ -139,6 +150,14 @@ function applyLanguage(lang) {
 
   const cvLink = document.getElementById("cvLink");
   cvLink.href = lang === "es" ? "assets/cv-es.pdf" : "assets/cv-en.pdf";
+
+  const langToggle = document.getElementById("langToggle");
+  if (langToggle) {
+    langToggle.setAttribute(
+      "aria-label",
+      lang === "es" ? "Switch to English" : "Cambiar a español"
+    );
+  }
 }
 
 function initTheme() {
@@ -149,10 +168,65 @@ function initLanguage() {
   applyLanguage(currentLang);
 }
 
-function initAOS() {
-  if (typeof AOS !== "undefined") {
-    AOS.init({ duration: 700, once: true, offset: 80 });
+function initReveal() {
+  const els = document.querySelectorAll("[data-aos]");
+  if (!els.length) return;
+
+  // Sin IntersectionObserver o con reduced-motion: mostrar todo de una.
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!("IntersectionObserver" in window) || reduceMotion) {
+    els.forEach((el) => el.classList.add("is-visible"));
+    return;
   }
+
+  const observer = new IntersectionObserver(
+    (entries, obs) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target;
+        const delay = el.getAttribute("data-aos-delay");
+        if (delay) el.style.transitionDelay = delay + "ms";
+        el.classList.add("is-visible");
+        obs.unobserve(el);
+      });
+    },
+    { rootMargin: "0px 0px -80px 0px" }
+  );
+
+  els.forEach((el) => observer.observe(el));
+}
+
+function initScrollSpy() {
+  const links = document.querySelectorAll(".navbar-links .nav-link");
+  const sections = document.querySelectorAll("section[id]");
+  if (!links.length || !sections.length || !("IntersectionObserver" in window)) return;
+
+  const linkFor = (id) =>
+    [...links].find((l) => l.getAttribute("href") === "#" + id);
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const link = linkFor(entry.target.id);
+        if (!link) return;
+        links.forEach((l) => {
+          l.classList.remove("active");
+          l.removeAttribute("aria-current");
+        });
+        link.classList.add("active");
+        link.setAttribute("aria-current", "true");
+      });
+    },
+    { rootMargin: "-45% 0px -45% 0px" }
+  );
+
+  sections.forEach((section) => observer.observe(section));
+}
+
+function initFooterYear() {
+  const el = document.getElementById("footerYear");
+  if (el) el.textContent = new Date().getFullYear();
 }
 
 function initNavbarScroll() {
@@ -170,14 +244,32 @@ function initMobileMenu() {
   const hamburger = document.getElementById("hamburger");
   const navLinks = document.getElementById("navLinks");
 
-  hamburger.addEventListener("click", () => {
-    navLinks.classList.toggle("active");
-  });
+  function setMenu(open) {
+    navLinks.classList.toggle("active", open);
+    hamburger.classList.toggle("open", open);
+    hamburger.setAttribute("aria-expanded", String(open));
+    document.body.style.overflow = open ? "hidden" : "";
+  }
+
+  function isOpen() {
+    return navLinks.classList.contains("active");
+  }
+
+  hamburger.addEventListener("click", () => setMenu(!isOpen()));
 
   navLinks.querySelectorAll(".nav-link").forEach((link) => {
-    link.addEventListener("click", () => {
-      navLinks.classList.remove("active");
-    });
+    link.addEventListener("click", () => setMenu(false));
+  });
+
+  // Cerrar con Escape
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && isOpen()) setMenu(false);
+  });
+
+  // Cerrar al clickear fuera del navbar
+  document.addEventListener("click", (e) => {
+    if (!isOpen()) return;
+    if (!e.target.closest(".navbar")) setMenu(false);
   });
 }
 
@@ -285,7 +377,9 @@ function initCardTilt() {
 document.addEventListener("DOMContentLoaded", () => {
   initTheme();
   initLanguage();
-  initAOS();
+  initReveal();
+  initScrollSpy();
+  initFooterYear();
   initNavbarScroll();
   initMobileMenu();
   initThemeToggle();
